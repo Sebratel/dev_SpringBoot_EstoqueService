@@ -1,0 +1,96 @@
+package br.com.sebratel.estoque.service;
+
+import br.com.sebratel.estoque.dto.InventoryMovesDTO;
+import br.com.sebratel.estoque.repository.erp.MovimentacaoEstoqueRepository;
+import br.com.sebratel.estoque.repository.erp.projections.MovimentacaoEstoqueProjection;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+class InventoryMovesServiceTest {
+
+    @Mock
+    private MovimentacaoEstoqueRepository movimentacaoEstoqueRepository;
+
+    @InjectMocks
+    private InventoryMovesService service;
+
+    @Test
+    void deveListarEstoqueComMapeamentoCorreto() {
+        // GIVEN
+        MovimentacaoEstoqueProjection p = mock(MovimentacaoEstoqueProjection.class);
+        when(p.getCodigos()).thenReturn("COD-01");
+        when(p.getId()).thenReturn(10L);
+        when(p.getDescricao()).thenReturn("Produto Teste");
+        when(p.getBaseDeOrigem()).thenReturn("Almoxarifado");
+        when(p.getEstoqueAtual()).thenReturn(50.0);
+        when(p.getMinimo()).thenReturn(10);
+
+        when(movimentacaoEstoqueRepository.findEstoqueMovimentacoes()).thenReturn(List.of(p));
+
+        // WHEN
+        List<InventoryMovesDTO> resultado = service.listarEstoque();
+
+        // THEN
+        assertNotNull(resultado);
+        assertEquals(1, resultado.size());
+
+        InventoryMovesDTO dto = resultado.get(0);
+        assertEquals("COD-01", dto.codigos());
+        assertEquals(10L, dto.id());
+        assertEquals("Produto Teste", dto.descricao());
+        assertEquals("Almoxarifado", dto.baseDeOrigem());
+        assertEquals(50, dto.estoqueAtual());
+        assertEquals(10, dto.minimo());
+
+        verify(movimentacaoEstoqueRepository, times(1)).findEstoqueMovimentacoes();
+    }
+
+    @Test
+    void deveRetornarListaVaziaQuandoNaoHouverMovimentacoes() {
+        // GIVEN
+        when(movimentacaoEstoqueRepository.findEstoqueMovimentacoes()).thenReturn(List.of());
+
+        // WHEN
+        List<InventoryMovesDTO> resultado = service.listarEstoque();
+
+        // THEN
+        assertNotNull(resultado);
+        assertTrue(resultado.isEmpty());
+        verify(movimentacaoEstoqueRepository, times(1)).findEstoqueMovimentacoes();
+    }
+
+    @Test
+    void deveMapearCamposNulosCorretamente() {
+        // GIVEN
+        MovimentacaoEstoqueProjection p = mock(MovimentacaoEstoqueProjection.class);
+        when(p.getCodigos()).thenReturn(null);
+        when(p.getId()).thenReturn(null);
+        when(p.getEstoqueAtual()).thenReturn(null);
+
+        when(movimentacaoEstoqueRepository.findEstoqueMovimentacoes()).thenReturn(List.of(p));
+
+        // WHEN
+        List<InventoryMovesDTO> resultado = service.listarEstoque();
+
+        // THEN
+        assertNotNull(resultado);
+        assertNull(resultado.get(0).codigos());
+        assertNull(resultado.get(0).id());
+        assertNull(resultado.get(0).estoqueAtual());
+    }
+}
