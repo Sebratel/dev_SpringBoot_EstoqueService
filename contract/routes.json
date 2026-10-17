@@ -1,0 +1,98 @@
+[
+  {
+    "method": "GET",
+    "path": "/api/v1/assets/pendentes",
+    "service": "estoque",
+    "auth": "authenticated",
+    "safe": true,
+    "handler": "PendingAssetController#getPendingAssets",
+    "pathVariables": [],
+    "queryParams": [],
+    "headers": [],
+    "body": null
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/assets/pending",
+    "service": "estoque",
+    "auth": "authenticated",
+    "safe": true,
+    "handler": "PendingAssetController#getPendingAssets",
+    "pathVariables": [],
+    "queryParams": [],
+    "headers": [],
+    "body": null
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/estoque/movimentacao",
+    "service": "estoque",
+    "auth": "authenticated",
+    "safe": true,
+    "handler": "InventoryMovesController#getEstoque",
+    "pathVariables": [],
+    "queryParams": [],
+    "headers": [],
+    "body": null
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/estoque/tecnico",
+    "service": "estoque",
+    "auth": "authenticated",
+    "safe": true,
+    "handler": "InventoryController#getInventory",
+    "pathVariables": [],
+    "queryParams": [],
+    "headers": [],
+    "body": "InventoryRequestDTO"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/patrimonio-pendente/pendentes",
+    "service": "estoque",
+    "auth": "authenticated",
+    "safe": true,
+    "handler": "PendingAssetController#getPendingAssets",
+    "pathVariables": [],
+    "queryParams": [],
+    "headers": [],
+    "body": null
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/patrimonio-pendente/pending",
+    "service": "estoque",
+    "auth": "authenticated",
+    "safe": true,
+    "handler": "PendingAssetController#getPendingAssets",
+    "pathVariables": [],
+    "queryParams": [],
+    "headers": [],
+    "body": null
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/patrimonios/pendentes",
+    "service": "estoque",
+    "auth": "authenticated",
+    "safe": true,
+    "handler": "PendingAssetController#getPendingAssets",
+    "pathVariables": [],
+    "queryParams": [],
+    "headers": [],
+    "body": null
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/patrimonios/pending",
+    "service": "estoque",
+    "auth": "authenticated",
+    "safe": true,
+    "handler": "PendingAssetController#getPendingAssets",
+    "pathVariables": [],
+    "queryParams": [],
+    "headers": [],
+    "body": null
+  }
+]
